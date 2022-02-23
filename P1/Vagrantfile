@@ -1,0 +1,33 @@
+$master = <<SCRIPT
+  sudo systemctl stop firewalld
+  sudo systemctl disable firewalld
+  curl -sfL https://get.k3s.io | sh -s - - --write-kubeconfig-mode '644' --flannel-iface eth1 --node-ip 192.168.42.110
+  sudo cat /var/lib/rancher/k3s/server/node-token > ~vagrant/data/token.txt
+SCRIPT
+$worker = <<SCRIPT
+  curl -sfL https://get.k3s.io | K3S_URL=https://192.168.42.110:6443 K3S_TOKEN=$(cat /home/vagrant/data/token.txt)  sh -s - - --flannel-iface 'eth1' --node-ip 192.168.42.111 --write-kubeconfig-mode '644'
+SCRIPT
+Vagrant.configure("2") do |config|
+  config.vm.box = "generic/centos8"
+  config.vm.synced_folder "./data", "/home/vagrant/data"
+
+  config.vm.define "Soherba" do |soherba|
+    soherba.vm.hostname = "Soherba"
+    soherba.vm.network "private_network", ip: "192.168.42.110"
+    soherba.vm.provision "shell", inline: $master
+    config.vm.provider "virtualbox" do |vb|
+      vb.memory = "1024"
+      vb.cpus = "1"
+    end
+  end
+  
+  config.vm.define "SWoherba" do |swoherba|
+    swoherba.vm.hostname = "SWoherba"
+    swoherba.vm.network "private_network", ip: "192.168.42.111"
+    swoherba.vm.provision "shell", inline: $worker
+    config.vm.provider "virtualbox" do |vb|
+      vb.memory = "1024"
+      vb.cpus = "1"
+    end
+  end
+end
