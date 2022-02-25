@@ -1,0 +1,19 @@
+$master = <<SCRIPT
+  sudo systemctl stop firewalld
+  sudo systemctl disable firewalld
+  curl -sfL https://get.k3s.io | sh -s - - --write-kubeconfig-mode '644' --flannel-iface eth1 --node-ip 192.168.42.110
+SCRIPT
+Vagrant.configure("2") do |config|
+  config.vm.box = "generic/centos8"
+  config.vm.synced_folder "./data", "/home/vagrant/data"
+
+  config.vm.define "oherbaS" do |oherbaS|
+    oherbaS.vm.hostname = "oherbaS"
+    oherbaS.vm.network "private_network", ip: "192.168.42.110"
+    oherbaS.vm.provision "shell", inline: $master
+    config.vm.provider "virtualbox" do |vb|
+      vb.memory = "1024"
+      vb.cpus = "1"
+    end
+  end
+end
