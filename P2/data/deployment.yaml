@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dep1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app1
+  template:
+    metadata:
+      labels:
+        app: app1
+    spec:
+      containers:
+      - image: tutum/hello-world
+        name: app1
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dep2
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: app2
+  template:
+    metadata:
+      labels:
+        app: app2
+    spec:
+      containers:
+      - image: cloudnativelabs/whats-my-ip
+        name: app2
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dep3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app3
+  template:
+    metadata:
+      labels:
+        app: app3
+    spec:
+      containers:
+      - image: wil42/playground:v2
+        name: app3
