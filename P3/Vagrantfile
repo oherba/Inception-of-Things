@@ -24,7 +24,11 @@ end
 #
 #curl -fsSL https://get.docker.com -o get-docker.sh
 #sudo sh get-docker.sh
-#sudo usermod -aG docker $USER
+#############sudo usermod -aG docker $USER
 #sudo dockerd
 #sudo chmod 666 /var/run/docker.sock
-#k3d cluster create  -p "8081:80@loadbalancer" --agents 1
+#k3d cluster create  -p "80:80@loadbalancer"  "8888:8888@loadbalancer"  --wait
+#kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+#kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer", "externalIPs":["192.168.42.111"]}}'
+
+#kubectl wait --for=condition=Ready pods --all -n argocd ~

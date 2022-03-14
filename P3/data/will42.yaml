@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: will42-deployment
+  namespace: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: will42-pod
+  template:
+    metadata:
+      labels:
+        app: will42-pod
+    spec:
+      containers:
+      - name: will42-container
+        image: wil42/playground:v2
+        ports:
+        - containerPort: 8888
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name:  will42-svc
+  namespace: dev
+spec:
+  type: NodePort
+  selector:
+    app: will42-pod
+  ports:
+  - port: 8888
+    nodePort: 3000
+
+# ---
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: argocd-ingress
+#   namespace: oherba
+#   annotations:
+#     ingress.kubernetes.io/ssl-redirect: "false"
+# spec:
+#   rules:
+#   - http:
+#       paths:
+#         - path: /
+#           pathType: Prefix
+#           backend:
+#             service:
+#               name:  will42-svc
+#               port:
+#                 number: 8888

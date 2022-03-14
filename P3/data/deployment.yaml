@@ -44,16 +44,6 @@ metadata:
 
 spec:
   rules:
-  # - host: app1.com
-  #   http:
-  #     paths:
-  #       - path: /
-  #         pathType: Prefix
-  #         backend:
-  #           service:
-  #             name: service3
-  #             port:
-  #               number: 8888
   - http:
       paths:
         - path: /
