@@ -3,16 +3,15 @@ $master = <<SCRIPT
   sudo systemctl disable firewalld
 SCRIPT
 Vagrant.configure("2") do |config|
-  config.vm.box = "generic/centos8"
+  config.vm.box = "generic/ubuntu1804"
   config.vm.synced_folder "./data", "/home/vagrant/data"
 
   config.vm.define "oherbaS" do |oherbaS|
     oherbaS.vm.hostname = "oherbaS"
     oherbaS.vm.network "private_network", ip: "192.168.42.110"
-    oherbaS.vm.provision "shell", inline: $master
     config.vm.provider "virtualbox" do |vb|
-      vb.memory = "1024"
-      vb.cpus = "1"
+      vb.memory = "4069"
+      vb.cpus = "4"
     end
   end
 end
