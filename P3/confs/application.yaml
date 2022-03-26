@@ -6,9 +6,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/0x10Ayoub/InceptionDev.git
+    repoURL: http://gitlab-service.default/root/test.git
     targetRevision: HEAD
-    path: dev
+    path: .
   destination:
     server: https://kubernetes.default.svc
     namespace: dev

@@ -1,34 +1,16 @@
-$master = <<SCRIPT
-  #sudo systemctl stop firewalld
-  #sudo systemctl disable firewalld
-SCRIPT
 Vagrant.configure("2") do |config|
   config.vm.box = "generic/ubuntu1804"
-  config.vm.synced_folder "./data", "/home/vagrant/data"
-
+  config.vm.provision "file", source: "./confs", destination: "/home/vagrant/"
   config.vm.define "oherbaS" do |oherbaS|
     oherbaS.vm.hostname = "oherbaS"
     oherbaS.vm.network "private_network", ip: "192.168.42.110"
-    oherbaS.vm.provision "shell", inline: $master
+    oherbaS.vm.provision "shell", path: "./scripts/install.sh"
+    oherbaS.vm.provision "shell", path: "./scripts/setup.sh"
     config.vm.provider "virtualbox" do |vb|
-      vb.memory = "2048"
-      vb.cpus = "2"
+      vb.memory = "4098"
+      vb.cpus = "4"
     end
   end
 end
-
-
-#curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
-#curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-#sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-#
-#curl -fsSL https://get.docker.com -o get-docker.sh
-#sudo sh get-docker.sh
-#############sudo usermod -aG docker $USER
-#sudo dockerd
-#sudo chmod 666 /var/run/docker.sock
-#k3d cluster create  -p "80:80@loadbalancer"  "8888:8888@loadbalancer"  --wait
-#kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-#kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer", "externalIPs":["192.168.42.111"]}}'
-
-#kubectl wait --for=condition=Ready pods --all -n argocd ~
+#wait for gitlab 5-8 min
+# kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo

@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gitlab-deployment
+  namespace: gitlab
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gitlab
+  template:
+    metadata:
+      labels:
+        app: gitlab
+    spec:
+      containers:
+      - name: gitlab
+        image: gitlab/gitlab-ee
+        env:
+          - name: GITLAB_OMNIBUS_CONFIG
+            value: "external_url 'http://gitlab-service.default/';prometheus['enable'] = false;grafana['enable'] = false;sidekiq['max_concurrency'] = 10;alertmanager['enable'] = false;gitlab_rails['registry_enabled'] = true;gitlab_rails['registry_api_url'] = \"http://172.17.0.2:5000\";puma['worker_processes'] = 0"
+        ports:
+        - containerPort: 80
+          name: http
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gitlab-service
+  namespace: gitlab
+spec:
+  type: NodePort
+
+  selector:
+    app: gitlab
+  ports:
+  - port: 80
+    targetPort: 80
+    nodePort: 30002
+    name: http
