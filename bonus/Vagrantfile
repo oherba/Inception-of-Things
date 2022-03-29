@@ -1,0 +1,28 @@
+$master = <<SCRIPT
+  sudo systemctl stop firewalld
+  sudo systemctl disable firewalld
+SCRIPT
+Vagrant.configure("2") do |config|
+  config.vm.box = "generic/ubuntu1804"
+  config.vm.synced_folder "./data", "/home/vagrant/data"
+
+  config.vm.define "oherbaS" do |oherbaS|
+    oherbaS.vm.hostname = "oherbaS"
+    oherbaS.vm.network "private_network", ip: "192.168.42.110"
+    config.vm.provider "virtualbox" do |vb|
+      vb.memory = "4096"
+      vb.cpus = "4"
+    end
+  end
+end
+
+
+#curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+#curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+#sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+#
+#curl -fsSL https://get.docker.com -o get-docker.sh
+#sudo sh get-docker.sh
+#sudo usermod -aG docker $USER
+#sudo dockerd
+#sudo chmod 666 /var/run/docker.sock

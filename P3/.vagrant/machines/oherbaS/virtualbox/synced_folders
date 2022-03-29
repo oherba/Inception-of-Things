@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {}
+=======
+{"virtualbox":{"/home/vagrant/data":{"guestpath":"/home/vagrant/data","hostpath":"/Users/akhourba/Desktop/IoT/Inception-of-Things/P3/data","disabled":false,"__vagrantfile":true}}}
+>>>>>>> 6c95983fcbabd32aa6bcbc432fda302a4ec259f3

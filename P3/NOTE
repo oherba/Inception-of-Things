@@ -1,0 +1,3 @@
+ssh-copy-id -i ~/.ssh/mykey user@host id_rsa
+look up into ~/.ssh/authorized_keys. 
+scp -i /Users/akhourba/.ssh/id_rsa -rP 2222 ./data akhourba@127.0.0.1:/home/akhourba/something
