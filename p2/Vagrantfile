@@ -1,7 +1,7 @@
 Vagrant.configure("2") do |config|
     config.vm.box = "generic/centos8"
     config.vm.synced_folder "./data", "/home/vagrant/data"
-    #config.vm.provision "file", source: "./confs", destination: "/home/vagrant/"
+    config.vm.provision "file", source: "./confs", destination: "/home/vagrant/"
     #config.vm.provision "file", source: "./scripts", destination: "/home/vagrant/"
     config.vm.provider "virtualbox" do |vb|
       vb.memory = "1024"
@@ -13,12 +13,11 @@ Vagrant.configure("2") do |config|
       soherba.vm.network "private_network", ip: "192.168.42.110"
       soherba.vm.provision "shell", path: "./scripts/master.sh"
       soherba.vm.provision "shell", path: "./scripts/runImages.sh",privileged: false
-    end    
+    end
+    config.trigger.before :up do |trigger|
+        trigger.name = "create data folder"
+        trigger.info = "create data folder before running"
+        trigger.run = {path: "./scripts/mkdir.sh"}
+    end
     
-    # config.trigger.after :up do |trigger|
-    #   trigger.name = "Hello world"
-    #   trigger.info = "I am running after vagrant up!!"
-    #   trigger.run_remote = {path: "./scripts/runImages.sh"},privileged: false
-    # end
-
 end

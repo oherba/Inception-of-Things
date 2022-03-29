@@ -5,7 +5,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "Soherba" do |soherba|
     soherba.vm.hostname = "Soherba"
     soherba.vm.network "private_network", ip: "192.168.42.110"
-    soherba.vm.provision "shell", path: "./scripts/master.sh"
+    soherba.vm.provision "shell", path: "./scripts/master.sh", privileged: false
     config.vm.provider "virtualbox" do |vb|
       vb.memory = "1024"
       vb.cpus = "1"
@@ -15,10 +15,16 @@ Vagrant.configure("2") do |config|
   config.vm.define "SWoherba" do |swoherba|
     swoherba.vm.hostname = "SWoherba"
     swoherba.vm.network "private_network", ip: "192.168.42.111"
-    swoherba.vm.provision "shell", path: "./scripts/workder.sh"
+    swoherba.vm.provision "shell", path: "./scripts/workder.sh", privileged: false
     config.vm.provider "virtualbox" do |vb|
       vb.memory = "1024"
       vb.cpus = "1"
     end
+  end
+
+  config.trigger.before :up do |trigger|
+    trigger.name = "create data folder"
+    trigger.info = "create data folder before running"
+    trigger.run = {path: "./scripts/mkdir.sh"}
   end
 end
