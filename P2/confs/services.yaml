@@ -6,7 +6,7 @@ spec:
   selector:
     app: app1
   ports:
-  - port: 30001
+  - port: 80
     targetPort: 80
 
 ---
@@ -18,7 +18,7 @@ spec:
   selector:
     app: app2
   ports:
-  - port: 30002
+  - port: 80
     targetPort: 8080
 
 ---
@@ -30,5 +30,5 @@ spec:
   selector:
     app: app3
   ports:
-  - port:  30003
+  - port:  80
     targetPort: 8888
