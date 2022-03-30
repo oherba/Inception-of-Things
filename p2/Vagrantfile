@@ -2,12 +2,13 @@ Vagrant.configure("2") do |config|
     config.vm.box = "generic/centos8"
     config.vm.provision "file", source: "./confs", destination: "/home/vagrant/"
     config.vm.provider "virtualbox" do |vb|
+      vb.name = "oherbaS"
       vb.memory = "1024"
       vb.cpus = "1"
     end
 
-    config.vm.define "Soherba" do |soherba|
-      soherba.vm.hostname = "Soherba"
+    config.vm.define "oherbaS" do |soherba|
+      soherba.vm.hostname = "oherbaS"
       soherba.vm.network "private_network", ip: "192.168.42.110"
       soherba.vm.provision "shell", path: "./scripts/master.sh"
       soherba.vm.provision "shell", path: "./scripts/runImages.sh",privileged: false
