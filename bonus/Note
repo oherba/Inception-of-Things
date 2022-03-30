@@ -1,4 +1,0 @@
-after installing helm
-
-sudo apt install gitlab-cli
-sudo apt install ruby-gitlab
