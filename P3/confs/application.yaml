@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/0x10Ayoub/InceptionDev.git
+    repoURL: https://github.com/0x10Ayoub/akhourba_Inception.git
     targetRevision: HEAD
     path: dev
   destination:
