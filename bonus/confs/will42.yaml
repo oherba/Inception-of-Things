@@ -23,7 +23,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: service2
+  name: will42-pod-service
 spec:
   selector:
     app: will42-pod
