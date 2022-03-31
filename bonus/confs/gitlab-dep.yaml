@@ -18,7 +18,7 @@ spec:
         image: gitlab/gitlab-ee
         env:
           - name: GITLAB_OMNIBUS_CONFIG
-            value: "external_url 'http://gitlab-service.default/';prometheus['enable'] = false;grafana['enable'] = false;sidekiq['max_concurrency'] = 10;alertmanager['enable'] = false;gitlab_rails['registry_enabled'] = true;gitlab_rails['registry_api_url'] = \"http://172.17.0.2:5000\";puma['worker_processes'] = 0"
+            value: "external_url 'http://gitlab-service.gitlab/';prometheus['enable'] = false;grafana['enable'] = false;sidekiq['max_concurrency'] = 10;alertmanager['enable'] = false;gitlab_rails['registry_enabled'] = true;gitlab_rails['registry_api_url'] = \"http://172.17.0.2:5000\";puma['worker_processes'] = 0"
         ports:
         - containerPort: 80
           name: http
